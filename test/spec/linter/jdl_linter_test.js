@@ -20,7 +20,7 @@
 
 const path = require('path');
 const { expect } = require('chai');
-const JDLLinter = require('../../../lib/linter/jdl_linter');
+const JDLLinter = require('../../../lib/linter/jdl_issue_checker');
 
 describe('JDLLinter', () => {
   describe('::new', () => {
