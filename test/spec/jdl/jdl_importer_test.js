@@ -277,6 +277,10 @@ describe('JDLImporter', () => {
               fieldName: 'language',
               fieldType: 'Language',
               fieldValues: 'FRENCH,ENGLISH,SPANISH'
+            },
+            {
+              fieldName: 'positionDuration',
+              fieldType: 'Duration'
             }
           ],
           relationships: [
@@ -1206,8 +1210,7 @@ describe('JDLImporter', () => {
             dockerRepositoryName: 'test',
             gatewayType: 'zuul',
             ingressDomain: '',
-            istio: 'no',
-            istioRoute: false,
+            istio: false,
             kubernetesNamespace: 'default',
             kubernetesServiceType: 'LoadBalancer',
             monitoring: 'no',
@@ -1229,24 +1232,9 @@ describe('JDLImporter', () => {
             serviceDiscoveryType: 'eureka',
             storageType: 'ephemeral'
           }
-        },
-        {
-          'generator-jhipster': {
-            appsFolders: ['tata', 'titi'],
-            clusteredDbApps: [],
-            consoleOptions: [],
-            directoryPath: '../',
-            deploymentType: 'rancher-compose',
-            dockerPushCommand: 'docker push',
-            dockerRepositoryName: 'test',
-            enableRancherLoadBalancing: false,
-            gatewayType: 'zuul',
-            monitoring: 'no',
-            serviceDiscoveryType: 'eureka'
-          }
         }
       ];
-      const DEPLOYMENT_NAMES = ['docker-compose', 'kubernetes', 'openshift', 'rancher-compose'];
+      const DEPLOYMENT_NAMES = ['docker-compose', 'kubernetes', 'openshift'];
 
       before(() => {
         const importer = new JDLImporter([path.join('test', 'test_files', 'deployments.jdl')]);
@@ -1436,8 +1424,7 @@ describe('JDLImporter', () => {
             kubernetesNamespace: 'default',
             kubernetesServiceType: 'LoadBalancer',
             ingressDomain: '',
-            istio: 'no',
-            istioRoute: false
+            istio: false
           }
         }
       ];

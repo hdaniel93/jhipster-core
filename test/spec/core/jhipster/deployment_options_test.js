@@ -78,27 +78,9 @@ describe('DeploymentOptions', () => {
             monitoring: 'no',
             serviceDiscoveryType: 'eureka',
             ingressDomain: '',
-            istio: 'no',
-            istioRoute: false,
+            istio: false,
             kubernetesNamespace: 'default',
             kubernetesServiceType: 'LoadBalancer'
-          });
-        });
-      });
-      context('when passing rancher-compose as arg', () => {
-        it('should return rancher-compose deployment config', () => {
-          expect(Options.defaults('rancher-compose')).to.eql({
-            deploymentType: 'rancher-compose',
-            appsFolders: new CustomSet(),
-            clusteredDbApps: new CustomSet(),
-            consoleOptions: new CustomSet(),
-            directoryPath: '../',
-            dockerPushCommand: 'docker push',
-            dockerRepositoryName: '',
-            gatewayType: 'zuul',
-            monitoring: 'no',
-            serviceDiscoveryType: 'eureka',
-            enableRancherLoadBalancing: false
           });
         });
       });
