@@ -18,11 +18,63 @@
 
 const expect = require('chai').expect;
 const Issues = require('../../../../lib/linter/issues/issues');
+const { RuleNames } = require('../../../../lib/linter/rules');
 const EntityIssue = require('../../../../lib/linter/issues/entity_issue');
 const FieldIssue = require('../../../../lib/linter/issues/field_issue');
 const EnumIssue = require('../../../../lib/linter/issues/enum_issue');
 
 describe('Issues', () => {
+  describe('addEntityIssue', () => {
+    let issues;
+    let issue;
+
+    before(() => {
+      issues = new Issues();
+      issue = new EntityIssue({ entityName: 'Toto', ruleName: RuleNames.ENT_DUPLICATED });
+      issues.addEntityIssue(issue);
+    });
+
+    it('adds a new issue', () => {
+      expect(issues.getIssues()).to.deep.equal([issue]);
+    });
+    it('increments the size', () => {
+      expect(issues.getSize()).to.equal(1);
+    });
+  });
+  describe('addFieldIssue', () => {
+    let issues;
+    let issue;
+
+    before(() => {
+      issues = new Issues();
+      issue = new FieldIssue({ fieldName: 'Toto', entityName: 'Tata', ruleName: RuleNames.FLD_DUPLICATED });
+      issues.addFieldIssue(issue);
+    });
+
+    it('adds a new issue', () => {
+      expect(issues.getIssues()).to.deep.equal([issue]);
+    });
+    it('increments the size', () => {
+      expect(issues.getSize()).to.equal(1);
+    });
+  });
+  describe('addEnumIssue', () => {
+    let issues;
+    let issue;
+
+    before(() => {
+      issues = new Issues();
+      issue = new EnumIssue({ enumName: 'Toto', ruleName: RuleNames.ENUM_DUPLICATED });
+      issues.addEnumIssue(issue);
+    });
+
+    it('adds a new issue', () => {
+      expect(issues.getIssues()).to.deep.equal([issue]);
+    });
+    it('increments the size', () => {
+      expect(issues.getSize()).to.equal(1);
+    });
+  });
   describe('getEntityIssuesForEntityName', () => {
     context('when not having any issue', () => {
       it('returns an empty array', () => {
@@ -99,6 +151,66 @@ describe('Issues', () => {
             .map(issue => issue.ruleName)
             .join(', ')
         ).to.equal('Toto, Titi');
+      });
+    });
+  });
+  describe('getIssues', () => {
+    describe('when there are no issues', () => {
+      let issues;
+
+      before(() => {
+        issues = new Issues();
+      });
+
+      it('returns an empty list', () => {
+        expect(issues.getIssues()).to.deep.equal([]);
+      });
+    });
+    describe('when there are some issues', () => {
+      let issues;
+      let issue1;
+      let issue2;
+
+      before(() => {
+        issues = new Issues();
+        issue1 = new FieldIssue({ fieldName: 'Toto', entityName: 'Tata', ruleName: RuleNames.FLD_DUPLICATED });
+        issue2 = new FieldIssue({ fieldName: 'Tutu', entityName: 'Tata', ruleName: RuleNames.FLD_DUPLICATED });
+        issues.addFieldIssue(issue1);
+        issues.addFieldIssue(issue2);
+      });
+
+      it('returns a list containing the issues', () => {
+        expect(issues.getIssues()).to.deep.equal([issue1, issue2]);
+      });
+    });
+  });
+  describe('getSize', () => {
+    describe('when there are no issues', () => {
+      let issues;
+
+      before(() => {
+        issues = new Issues();
+      });
+
+      it('returns 0', () => {
+        expect(issues.getSize()).to.equal(0);
+      });
+    });
+    describe('when there are some issues', () => {
+      let issues;
+      let issue1;
+      let issue2;
+
+      before(() => {
+        issues = new Issues();
+        issue1 = new FieldIssue({ fieldName: 'Toto', entityName: 'Tata', ruleName: RuleNames.FLD_DUPLICATED });
+        issue2 = new FieldIssue({ fieldName: 'Tutu', entityName: 'Tata', ruleName: RuleNames.FLD_DUPLICATED });
+        issues.addFieldIssue(issue1);
+        issues.addFieldIssue(issue2);
+      });
+
+      it('returns the number of elements in the container', () => {
+        expect(issues.getSize()).to.equal(2);
       });
     });
   });
